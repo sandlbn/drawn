@@ -1,0 +1,46 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+
+{% block content %}
+<div class="container">
+  <h1>drawn</h1>
+
+  {{ wtf.quick_form(form, button_map={'submit_button': 'primary'}) }}
+  
+  {% if drawn %}
+  <br/>
+  <table class="table table-striped">
+      <thead>
+          <th>Title</th>
+          <th>Photo</th>
+          <th>Price</th>
+          <th>Delete</th>
+      </thead>
+      </tbody>
+      {% for element in drawn %}
+      <tr>
+          <td> {{ element.title }} </td>
+          <td><img src="{% if element.photo %} {{ element.photo }} {% else %} http://dummyimage.com/60/000/fff {% endif %}"></td>
+          <td>{% if element.price %} {{ element.price }}{% else %} NaN {% endif %}</td>
+          <td><a href="/delete/{{ loop.index0 }}/" class="btn btn-info">Delete</a>
+      </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% if drawn|length >= 2 %}
+<a href="/drawn/" class="btn btn-danger">Drawn cart !</a>
+{% else %}
+You need two or more elements in cart.
+{% endif %}
+{% endif %}
+</div>
+{% endblock %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+<style>
+h1  { color: #FE9A2E;  }
+</style>
+{% endblock %}
